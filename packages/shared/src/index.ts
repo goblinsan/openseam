@@ -278,3 +278,130 @@ export const DEFAULT_SCORING_WEIGHTS: ScoringWeights = {
   designPartnerPotential: 0.03,
   referenceValue: 0.02,
 };
+
+// ============ Assessment OS Types ============
+
+export type AssessmentStatus = 'draft' | 'in_review' | 'completed' | 'delivered';
+export type PortabilityRating = 'poor' | 'fair' | 'good' | 'excellent';
+export type ServiceType = 'portable' | 'cloud_native' | 'proprietary';
+export type RiskSeverity = 'low' | 'medium' | 'high' | 'critical';
+export type RecommendationPriority = 'low' | 'medium' | 'high' | 'critical';
+export type RecommendationCategory =
+  | 'portability'
+  | 'architecture'
+  | 'service_substitution'
+  | 'data'
+  | 'devops'
+  | 'governance'
+  | 'observability'
+  | 'security'
+  | 'cost'
+  | 'migration';
+
+export interface Assessment {
+  id: string;
+  name: string;
+  organizationName: string;
+  projectName: string;
+  status: AssessmentStatus;
+  intakeId?: string;
+  intake?: { id: string; organizationName: string; applicationName: string };
+  portabilityScore?: PortabilityScore;
+  _count?: { recommendations: number; reports: number };
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface PortabilityScore {
+  id: string;
+  assessmentId: string;
+  overallScore: number;
+  rating: PortabilityRating;
+  modelVersion: string;
+  calculatedAt: Date;
+  dimensions: ScoreDimension[];
+  deductions: ScoreDeduction[];
+}
+
+export interface ScoreDimension {
+  name: string;
+  weight: number;
+  rawScore: number;
+  weightedScore: number;
+}
+
+export interface ScoreDeduction {
+  category: string;
+  description: string;
+  impact: number;
+  severity: RiskSeverity;
+  provider?: string;
+  service?: string;
+}
+
+export interface CloudService {
+  id: string;
+  name: string;
+  provider: string;
+  category: string;
+  type: ServiceType;
+  equivalents: string[];
+}
+
+export interface LockInRisk {
+  id: string;
+  service: string;
+  provider: string;
+  description: string;
+  severity: RiskSeverity;
+  recommendation?: string;
+}
+
+export interface ProviderSummary {
+  provider: string;
+  serviceCount: number;
+  proprietaryServices: number;
+  portabilityRiskLevel: 'low' | 'medium' | 'high';
+}
+
+export interface PortabilityInventory {
+  id: string;
+  assessmentId: string;
+  providerSummaries: ProviderSummary[];
+  services: CloudService[];
+  lockInRisks: LockInRisk[];
+  createdAt: Date;
+}
+
+export interface Recommendation {
+  id: string;
+  assessmentId: string;
+  title: string;
+  description: string;
+  category: string;
+  priority: RecommendationPriority;
+  impact: string;
+  effort: string;
+  rationale: string;
+  implementationGuidance: string;
+  relatedRisks: string[];
+  relatedServices: string[];
+  createdAt: Date;
+}
+
+export interface AdvisoryReport {
+  id: string;
+  assessmentId: string;
+  title: string;
+  organizationName: string;
+  generatedAt: Date;
+  format: string;
+  version: string;
+  content: string;
+  metadata: {
+    portabilityScore?: number;
+    riskCount?: number;
+    recommendationCount?: number;
+    providers?: string[];
+  };
+}

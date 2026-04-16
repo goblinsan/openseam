@@ -13,6 +13,8 @@ import HypothesesPage from './pages/hypotheses/HypothesesPage';
 import IntakePage from './pages/intake/IntakePage';
 import NewIntakePage from './pages/intake/NewIntakePage';
 import ScoringPage from './pages/scoring/ScoringPage';
+import AssessmentsPage from './pages/assessments/AssessmentsPage';
+import AssessmentDetailPage from './pages/assessments/AssessmentDetailPage';
 
 export default function App() {
   return (
@@ -31,6 +33,8 @@ export default function App() {
         <Route path="/intake" element={<IntakePage />} />
         <Route path="/intake/new" element={<NewIntakePage />} />
         <Route path="/scoring" element={<ScoringPage />} />
+        <Route path="/assessments" element={<AssessmentsPage />} />
+        <Route path="/assessments/:id" element={<AssessmentDetailPage />} />
       </Routes>
     </Layout>
   );

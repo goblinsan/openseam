@@ -94,3 +94,32 @@ export const scoringApi = {
   rankings: () => apiClient.get('/scoring/rankings').then((r) => r.data),
   updateWeights: (data: unknown) => apiClient.patch('/scoring/weights', data).then((r) => r.data),
 };
+
+export const assessmentsApi = {
+  list: () => apiClient.get('/assessments').then((r) => r.data),
+  get: (id: string) => apiClient.get(`/assessments/${id}`).then((r) => r.data),
+  create: (data: unknown) => apiClient.post('/assessments', data).then((r) => r.data),
+  update: (id: string, data: unknown) => apiClient.patch(`/assessments/${id}`, data).then((r) => r.data),
+  delete: (id: string) => apiClient.delete(`/assessments/${id}`).then((r) => r.data),
+};
+
+export const inventoryApi = {
+  generate: (assessmentId: string) => apiClient.post(`/inventory/${assessmentId}/generate`).then((r) => r.data),
+  get: (assessmentId: string) => apiClient.get(`/inventory/${assessmentId}`).then((r) => r.data),
+};
+
+export const portabilityScoringApi = {
+  calculate: (assessmentId: string) => apiClient.post(`/portability-scoring/${assessmentId}/calculate`).then((r) => r.data),
+  get: (assessmentId: string) => apiClient.get(`/portability-scoring/${assessmentId}`).then((r) => r.data),
+};
+
+export const recommendationsApi = {
+  generate: (assessmentId: string) => apiClient.post(`/recommendations/${assessmentId}/generate`).then((r) => r.data),
+  get: (assessmentId: string) => apiClient.get(`/recommendations/${assessmentId}`).then((r) => r.data),
+};
+
+export const reportsApi = {
+  generate: (assessmentId: string) => apiClient.post(`/reports/${assessmentId}/generate`).then((r) => r.data),
+  getByAssessment: (assessmentId: string) => apiClient.get(`/reports/assessment/${assessmentId}`).then((r) => r.data),
+  get: (id: string) => apiClient.get(`/reports/${id}`).then((r) => r.data),
+};

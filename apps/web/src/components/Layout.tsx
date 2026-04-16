@@ -11,6 +11,7 @@ import {
   ServerCog,
   BarChart3,
   ClipboardList,
+  ClipboardCheck,
 } from 'lucide-react';
 
 const navItems = [
@@ -25,6 +26,7 @@ const navItems = [
   { to: '/hypotheses', icon: Lightbulb, label: 'Hypotheses' },
   { to: '/intake', icon: ServerCog, label: 'Arch Intake' },
   { to: '/scoring', icon: BarChart3, label: 'Scoring' },
+  { to: '/assessments', icon: ClipboardCheck, label: 'Assessments' },
 ];
 
 const sidebarStyle: React.CSSProperties = {
@@ -72,7 +74,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <aside style={sidebarStyle}>
         <div style={logoStyle}>
           <div style={{ fontSize: 18, fontWeight: 700, color: '#f1f5f9' }}>🔍 OpenSeam</div>
-          <div style={{ fontSize: 11, color: '#64748b', marginTop: 2 }}>Discovery OS</div>
+          <div style={{ fontSize: 11, color: '#64748b', marginTop: 2 }}>Discovery & Assessment OS</div>
         </div>
         <nav style={navStyle}>
           {navItems.map(({ to, icon: Icon, label }) => (
