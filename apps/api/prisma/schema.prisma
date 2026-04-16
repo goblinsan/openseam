@@ -1,0 +1,187 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id              String        @id @default(uuid())
+  name            String
+  industry        String?
+  website         String?
+  description     String?
+  isDesignPartner Boolean       @default(false)
+  tags            String[]      @default([])
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  contacts        Contact[]
+  opportunities   Opportunity[]
+  interviews      Interview[]
+  evidence        Evidence[]
+  scores          OpportunityScore[]
+  intakes         ArchitectureIntake[]
+}
+
+model Contact {
+  id        String   @id @default(uuid())
+  accountId String
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  firstName String
+  lastName  String
+  email     String
+  role      String?
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Lead {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  company   String?
+  source    String?
+  status    String   @default("new")
+  notes     String?
+  tags      String[] @default([])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Opportunity {
+  id              String   @id @default(uuid())
+  accountId       String
+  account         Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  title           String
+  stage           String   @default("prospect")
+  value           Float?
+  isDesignPartner Boolean  @default(false)
+  closeDate       DateTime?
+  notes           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  interviews      Interview[]
+  evidence        Evidence[]
+  scores          OpportunityScore[]
+}
+
+model InterviewTemplate {
+  id          String      @id @default(uuid())
+  name        String
+  persona     String
+  description String?
+  questions   String[]    @default([])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  interviews  Interview[]
+}
+
+model Interview {
+  id             String             @id @default(uuid())
+  accountId      String
+  account        Account            @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  opportunityId  String?
+  opportunity    Opportunity?       @relation(fields: [opportunityId], references: [id])
+  templateId     String?
+  template       InterviewTemplate? @relation(fields: [templateId], references: [id])
+  interviewer    String
+  interviewee    String
+  persona        String
+  status         String             @default("scheduled")
+  scheduledAt    DateTime
+  completedAt    DateTime?
+  notes          String             @default("")
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+  evidence       Evidence[]
+}
+
+model Evidence {
+  id               String      @id @default(uuid())
+  title            String
+  description      String
+  category         String
+  sourceType       String
+  sourceReference  String?
+  tags             String[]    @default([])
+  accountId        String?
+  account          Account?    @relation(fields: [accountId], references: [id])
+  opportunityId    String?
+  opportunity      Opportunity? @relation(fields: [opportunityId], references: [id])
+  interviewId      String?
+  interview        Interview?  @relation(fields: [interviewId], references: [id])
+  hypothesisId     String?
+  hypothesis       Hypothesis? @relation(fields: [hypothesisId], references: [id])
+  confidence       String      @default("medium")
+  impact           String      @default("medium")
+  createdBy        String
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+}
+
+model Hypothesis {
+  id        String     @id @default(uuid())
+  statement String
+  status    String     @default("unvalidated")
+  evidence  Evidence[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model ArchitectureIntake {
+  id               String   @id @default(uuid())
+  accountId        String?
+  account          Account? @relation(fields: [accountId], references: [id])
+  organizationName String
+  applicationName  String
+  description      String?
+  primaryContact   String
+  cloudProviders   String[] @default([])
+  environments     String[] @default([])
+  compute          Json     @default("{}")
+  storage          Json     @default("{}")
+  messaging        Json     @default("{}")
+  identity         Json     @default("{}")
+  networking       Json     @default("{}")
+  cicd             Json     @default("{}")
+  observability    Json     @default("{}")
+  security         Json     @default("{}")
+  compliance       String[] @default([])
+  dataResidency    String?
+  disasterRecovery String?
+  integrations     String[] @default([])
+  portabilityGoals String?
+  status           String   @default("draft")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model OpportunityScore {
+  id            String      @id @default(uuid())
+  accountId     String
+  account       Account     @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  opportunityId String?
+  opportunity   Opportunity? @relation(fields: [opportunityId], references: [id])
+  totalScore    Float
+  rating        String
+  breakdown     Json
+  calculatedAt  DateTime    @default(now())
+}
+
+model ScoringConfig {
+  id                     String   @id @default(uuid())
+  strategicFit           Float    @default(0.20)
+  cloudComplexity        Float    @default(0.15)
+  vendorLockInRisk       Float    @default(0.15)
+  technicalMaturity      Float    @default(0.10)
+  revenuePotential       Float    @default(0.15)
+  urgency                Float    @default(0.10)
+  regulatoryPressure     Float    @default(0.05)
+  innovationReadiness    Float    @default(0.05)
+  designPartnerPotential Float    @default(0.03)
+  referenceValue         Float    @default(0.02)
+  updatedAt              DateTime @updatedAt
+}

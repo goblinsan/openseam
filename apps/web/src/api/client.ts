@@ -1,0 +1,96 @@
+import axios from 'axios';
+
+const BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3001';
+
+export const apiClient = axios.create({
+  baseURL: BASE_URL,
+  headers: { 'Content-Type': 'application/json' },
+});
+
+export const accountsApi = {
+  list: (params?: { search?: string; isDesignPartner?: boolean }) =>
+    apiClient.get('/accounts', { params }).then((r) => r.data),
+  get: (id: string) => apiClient.get(`/accounts/${id}`).then((r) => r.data),
+  create: (data: unknown) => apiClient.post('/accounts', data).then((r) => r.data),
+  update: (id: string, data: unknown) =>
+    apiClient.patch(`/accounts/${id}`, data).then((r) => r.data),
+  delete: (id: string) => apiClient.delete(`/accounts/${id}`).then((r) => r.data),
+};
+
+export const contactsApi = {
+  list: (params?: { accountId?: string }) =>
+    apiClient.get('/contacts', { params }).then((r) => r.data),
+  get: (id: string) => apiClient.get(`/contacts/${id}`).then((r) => r.data),
+  create: (data: unknown) => apiClient.post('/contacts', data).then((r) => r.data),
+  update: (id: string, data: unknown) =>
+    apiClient.patch(`/contacts/${id}`, data).then((r) => r.data),
+  delete: (id: string) => apiClient.delete(`/contacts/${id}`).then((r) => r.data),
+};
+
+export const leadsApi = {
+  list: (params?: { status?: string; search?: string }) =>
+    apiClient.get('/leads', { params }).then((r) => r.data),
+  get: (id: string) => apiClient.get(`/leads/${id}`).then((r) => r.data),
+  create: (data: unknown) => apiClient.post('/leads', data).then((r) => r.data),
+  update: (id: string, data: unknown) =>
+    apiClient.patch(`/leads/${id}`, data).then((r) => r.data),
+  delete: (id: string) => apiClient.delete(`/leads/${id}`).then((r) => r.data),
+};
+
+export const opportunitiesApi = {
+  list: (params?: { stage?: string; isDesignPartner?: boolean }) =>
+    apiClient.get('/opportunities', { params }).then((r) => r.data),
+  get: (id: string) => apiClient.get(`/opportunities/${id}`).then((r) => r.data),
+  create: (data: unknown) => apiClient.post('/opportunities', data).then((r) => r.data),
+  update: (id: string, data: unknown) =>
+    apiClient.patch(`/opportunities/${id}`, data).then((r) => r.data),
+  delete: (id: string) => apiClient.delete(`/opportunities/${id}`).then((r) => r.data),
+};
+
+export const interviewsApi = {
+  listTemplates: () => apiClient.get('/interviews/templates').then((r) => r.data),
+  createTemplate: (data: unknown) =>
+    apiClient.post('/interviews/templates', data).then((r) => r.data),
+  list: (params?: { accountId?: string; status?: string }) =>
+    apiClient.get('/interviews', { params }).then((r) => r.data),
+  get: (id: string) => apiClient.get(`/interviews/${id}`).then((r) => r.data),
+  create: (data: unknown) => apiClient.post('/interviews', data).then((r) => r.data),
+  update: (id: string, data: unknown) =>
+    apiClient.patch(`/interviews/${id}`, data).then((r) => r.data),
+};
+
+export const evidenceApi = {
+  list: (params?: { category?: string; accountId?: string; search?: string }) =>
+    apiClient.get('/evidence', { params }).then((r) => r.data),
+  get: (id: string) => apiClient.get(`/evidence/${id}`).then((r) => r.data),
+  create: (data: unknown) => apiClient.post('/evidence', data).then((r) => r.data),
+  update: (id: string, data: unknown) =>
+    apiClient.patch(`/evidence/${id}`, data).then((r) => r.data),
+  delete: (id: string) => apiClient.delete(`/evidence/${id}`).then((r) => r.data),
+};
+
+export const hypothesesApi = {
+  list: () => apiClient.get('/hypotheses').then((r) => r.data),
+  get: (id: string) => apiClient.get(`/hypotheses/${id}`).then((r) => r.data),
+  create: (data: unknown) => apiClient.post('/hypotheses', data).then((r) => r.data),
+  update: (id: string, data: unknown) =>
+    apiClient.patch(`/hypotheses/${id}`, data).then((r) => r.data),
+};
+
+export const intakeApi = {
+  list: () => apiClient.get('/intake').then((r) => r.data),
+  get: (id: string) => apiClient.get(`/intake/${id}`).then((r) => r.data),
+  create: (data: unknown) => apiClient.post('/intake', data).then((r) => r.data),
+  update: (id: string, data: unknown) =>
+    apiClient.patch(`/intake/${id}`, data).then((r) => r.data),
+  submit: (id: string) => apiClient.post(`/intake/${id}/submit`).then((r) => r.data),
+  delete: (id: string) => apiClient.delete(`/intake/${id}`).then((r) => r.data),
+};
+
+export const scoringApi = {
+  list: () => apiClient.get('/scoring').then((r) => r.data),
+  calculate: (data: unknown) => apiClient.post('/scoring/calculate', data).then((r) => r.data),
+  get: (accountId: string) => apiClient.get(`/scoring/${accountId}`).then((r) => r.data),
+  rankings: () => apiClient.get('/scoring/rankings').then((r) => r.data),
+  updateWeights: (data: unknown) => apiClient.patch('/scoring/weights', data).then((r) => r.data),
+};
