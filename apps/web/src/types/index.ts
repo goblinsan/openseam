@@ -176,3 +176,118 @@ export interface OpportunityScore {
   calculatedAt: string;
   breakdown: ScoreBreakdown[];
 }
+
+// ============ Assessment OS Types ============
+
+export type AssessmentStatus = 'draft' | 'in_review' | 'completed' | 'delivered';
+export type PortabilityRating = 'poor' | 'fair' | 'good' | 'excellent';
+export type ServiceType = 'portable' | 'cloud_native' | 'proprietary';
+export type RiskSeverity = 'low' | 'medium' | 'high' | 'critical';
+
+export interface Assessment {
+  id: string;
+  name: string;
+  organizationName: string;
+  projectName: string;
+  status: AssessmentStatus;
+  intakeId?: string;
+  intake?: { id: string; organizationName: string; applicationName: string };
+  portabilityScore?: PortabilityScore;
+  _count?: { recommendations: number; reports: number };
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PortabilityScore {
+  id: string;
+  assessmentId: string;
+  overallScore: number;
+  rating: PortabilityRating;
+  modelVersion: string;
+  calculatedAt: string;
+  dimensions: ScoreDimension[];
+  deductions: ScoreDeduction[];
+}
+
+export interface ScoreDimension {
+  name: string;
+  weight: number;
+  rawScore: number;
+  weightedScore: number;
+}
+
+export interface ScoreDeduction {
+  category: string;
+  description: string;
+  impact: number;
+  severity: string;
+  provider?: string;
+  service?: string;
+}
+
+export interface CloudService {
+  id: string;
+  name: string;
+  provider: string;
+  category: string;
+  type: ServiceType;
+  equivalents: string[];
+}
+
+export interface LockInRisk {
+  id: string;
+  service: string;
+  provider: string;
+  description: string;
+  severity: RiskSeverity;
+  recommendation?: string;
+}
+
+export interface ProviderSummary {
+  provider: string;
+  serviceCount: number;
+  proprietaryServices: number;
+  portabilityRiskLevel: 'low' | 'medium' | 'high';
+}
+
+export interface PortabilityInventory {
+  id: string;
+  assessmentId: string;
+  providerSummaries: ProviderSummary[];
+  services: CloudService[];
+  lockInRisks: LockInRisk[];
+  createdAt: string;
+}
+
+export interface Recommendation {
+  id: string;
+  assessmentId: string;
+  title: string;
+  description: string;
+  category: string;
+  priority: string;
+  impact: string;
+  effort: string;
+  rationale: string;
+  implementationGuidance: string;
+  relatedRisks: string[];
+  relatedServices: string[];
+  createdAt: string;
+}
+
+export interface AdvisoryReport {
+  id: string;
+  assessmentId: string;
+  title: string;
+  organizationName: string;
+  generatedAt: string;
+  format: string;
+  version: string;
+  content: string;
+  metadata: {
+    portabilityScore?: number;
+    riskCount?: number;
+    recommendationCount?: number;
+    providers?: string[];
+  };
+}
