@@ -74,7 +74,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <aside style={sidebarStyle}>
         <div style={logoStyle}>
           <div style={{ fontSize: 18, fontWeight: 700, color: '#f1f5f9' }}>🔍 OpenSeam</div>
-          <div style={{ fontSize: 11, color: '#64748b', marginTop: 2 }}>Assessment OS</div>
+          <div style={{ fontSize: 11, color: '#64748b', marginTop: 2 }}>Discovery & Assessment OS</div>
         </div>
         <nav style={navStyle}>
           {navItems.map(({ to, icon: Icon, label }) => (

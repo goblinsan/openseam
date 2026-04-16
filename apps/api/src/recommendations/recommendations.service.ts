@@ -18,7 +18,7 @@ const RECOMMENDATION_RULES: RecommendationRule[] = [
   {
     condition: (inv) => inv.lockInRisks?.some((r: any) => r.service?.toLowerCase().includes('dynamodb')),
     title: 'Replace DynamoDB with Portable Data Layer',
-    description: 'DynamoDB\'s proprietary API creates significant vendor lock-in. Introduce a portable data access layer.',
+    description: "DynamoDB's proprietary API creates significant vendor lock-in. Introduce a portable data access layer.",
     category: 'service_substitution',
     priority: 'high',
     impact: 'high',
