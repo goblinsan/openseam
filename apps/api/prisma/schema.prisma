@@ -157,6 +157,7 @@ model ArchitectureIntake {
   status           String   @default("draft")
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+  assessments      Assessment[]
 }
 
 model OpportunityScore {
@@ -184,4 +185,94 @@ model ScoringConfig {
   designPartnerPotential Float    @default(0.03)
   referenceValue         Float    @default(0.02)
   updatedAt              DateTime @updatedAt
+}
+
+model Assessment {
+  id               String              @id @default(uuid())
+  name             String
+  organizationName String
+  projectName      String
+  status           String              @default("draft")
+  intakeId         String?
+  intake           ArchitectureIntake? @relation(fields: [intakeId], references: [id])
+  inventory        PortabilityInventory?
+  portabilityScore PortabilityScore?
+  recommendations  Recommendation[]
+  reports          AdvisoryReport[]
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+}
+
+model PortabilityInventory {
+  id               String         @id @default(uuid())
+  assessmentId     String         @unique
+  assessment       Assessment     @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  providerSummaries Json          @default("[]")
+  services         CloudService[]
+  lockInRisks      LockInRisk[]
+  createdAt        DateTime       @default(now())
+}
+
+model CloudService {
+  id          String               @id @default(uuid())
+  inventoryId String
+  inventory   PortabilityInventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  name        String
+  provider    String
+  category    String
+  type        String
+  equivalents String[]             @default([])
+}
+
+model LockInRisk {
+  id             String               @id @default(uuid())
+  inventoryId    String
+  inventory      PortabilityInventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  service        String
+  provider       String
+  description    String
+  severity       String
+  recommendation String?
+}
+
+model PortabilityScore {
+  id           String      @id @default(uuid())
+  assessmentId String      @unique
+  assessment   Assessment  @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  overallScore Float
+  rating       String
+  modelVersion String      @default("v1")
+  dimensions   Json        @default("[]")
+  deductions   Json        @default("[]")
+  calculatedAt DateTime    @default(now())
+}
+
+model Recommendation {
+  id                      String     @id @default(uuid())
+  assessmentId            String
+  assessment              Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  title                   String
+  description             String
+  category                String
+  priority                String
+  impact                  String
+  effort                  String
+  rationale               String
+  implementationGuidance  String
+  relatedRisks            String[]   @default([])
+  relatedServices         String[]   @default([])
+  createdAt               DateTime   @default(now())
+}
+
+model AdvisoryReport {
+  id               String     @id @default(uuid())
+  assessmentId     String
+  assessment       Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  title            String
+  organizationName String
+  format           String     @default("markdown")
+  version          String     @default("1.0")
+  content          String
+  metadata         Json       @default("{}")
+  generatedAt      DateTime   @default(now())
 }

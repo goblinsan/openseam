@@ -10,6 +10,11 @@ import { EvidenceModule } from './evidence/evidence.module';
 import { HypothesesModule } from './hypotheses/hypotheses.module';
 import { IntakeModule } from './intake/intake.module';
 import { ScoringModule } from './scoring/scoring.module';
+import { AssessmentsModule } from './assessments/assessments.module';
+import { InventoryModule } from './inventory/inventory.module';
+import { PortabilityScoringModule } from './portability-scoring/portability-scoring.module';
+import { RecommendationsModule } from './recommendations/recommendations.module';
+import { ReportsModule } from './reports/reports.module';
 
 @Module({
   imports: [
@@ -24,6 +29,11 @@ import { ScoringModule } from './scoring/scoring.module';
     HypothesesModule,
     IntakeModule,
     ScoringModule,
+    AssessmentsModule,
+    InventoryModule,
+    PortabilityScoringModule,
+    RecommendationsModule,
+    ReportsModule,
   ],
 })
 export class AppModule {}
