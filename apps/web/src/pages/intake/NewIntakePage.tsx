@@ -38,13 +38,10 @@ export default function NewIntakePage() {
   });
 
   const set = (path: string, value: unknown) => {
-    const keys = path.split('.');
+    const [top, sub] = path.split('.');
     setForm(f => {
-      const updated = { ...f } as any;
-      let cur = updated;
-      for (let i = 0; i < keys.length - 1; i++) { cur[keys[i]] = { ...cur[keys[i]] }; cur = cur[keys[i]]; }
-      cur[keys[keys.length - 1]] = value;
-      return updated;
+      if (!sub) return { ...f, [top]: value };
+      return { ...f, [top]: { ...(f as Record<string, unknown>)[top] as object, [sub]: value } };
     });
   };
 
