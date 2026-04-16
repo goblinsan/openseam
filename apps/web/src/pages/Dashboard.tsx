@@ -30,10 +30,13 @@ function StatCard({ label, count, color }: { label: string; count: number; color
 }
 
 export default function Dashboard() {
-  const results = cards.map(({ key, api }) =>
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useQuery({ queryKey: [key], queryFn: api })
-  );
+  const q0 = useQuery({ queryKey: [cards[0].key], queryFn: cards[0].api });
+  const q1 = useQuery({ queryKey: [cards[1].key], queryFn: cards[1].api });
+  const q2 = useQuery({ queryKey: [cards[2].key], queryFn: cards[2].api });
+  const q3 = useQuery({ queryKey: [cards[3].key], queryFn: cards[3].api });
+  const q4 = useQuery({ queryKey: [cards[4].key], queryFn: cards[4].api });
+  const q5 = useQuery({ queryKey: [cards[5].key], queryFn: cards[5].api });
+  const results = [q0, q1, q2, q3, q4, q5];
 
   return (
     <div style={{ padding: 32 }}>
