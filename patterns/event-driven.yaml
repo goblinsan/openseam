@@ -1,0 +1,36 @@
+id: event-driven
+name: Event-Driven Architecture
+category: messaging
+description: Event-based microservices pattern using publish-subscribe messaging.
+portability: high
+version: 1.0.0
+
+interfaces:
+  - event
+  - stream
+
+dependencies:
+  - messaging
+  - compute
+
+providers:
+  aws:
+    messaging: eventbridge
+    stream: kinesis
+  gcp:
+    messaging: pubsub
+    stream: pubsub
+  azure:
+    messaging: event_grid
+    stream: event_hubs
+
+artifacts:
+  terraform_module: modules/event-driven
+  manifest_template: manifests/event-driven.yaml
+  documentation_url: docs/patterns/event-driven.md
+
+tags:
+  - events
+  - pubsub
+  - microservices
+  - streaming

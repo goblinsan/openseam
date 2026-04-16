@@ -123,3 +123,44 @@ export const reportsApi = {
   getByAssessment: (assessmentId: string) => apiClient.get(`/reports/assessment/${assessmentId}`).then((r) => r.data),
   get: (id: string) => apiClient.get(`/reports/${id}`).then((r) => r.data),
 };
+
+export const patternsApi = {
+  list: (params?: { category?: string }) =>
+    apiClient.get('/patterns', { params }).then((r) => r.data),
+  get: (id: string) => apiClient.get(`/patterns/${id}`).then((r) => r.data),
+  create: (data: unknown) => apiClient.post('/patterns', data).then((r) => r.data),
+  update: (id: string, data: unknown) => apiClient.patch(`/patterns/${id}`, data).then((r) => r.data),
+  delete: (id: string) => apiClient.delete(`/patterns/${id}`).then((r) => r.data),
+  categories: () => apiClient.get('/patterns/categories').then((r) => r.data),
+};
+
+export const workspacesApi = {
+  list: () => apiClient.get('/workspaces').then((r) => r.data),
+  get: (id: string) => apiClient.get(`/workspaces/${id}`).then((r) => r.data),
+  create: (data: unknown) => apiClient.post('/workspaces', data).then((r) => r.data),
+  update: (id: string, data: unknown) => apiClient.patch(`/workspaces/${id}`, data).then((r) => r.data),
+  delete: (id: string) => apiClient.delete(`/workspaces/${id}`).then((r) => r.data),
+};
+
+export const projectsApi = {
+  list: (params?: { workspaceId?: string }) =>
+    apiClient.get('/projects', { params }).then((r) => r.data),
+  get: (id: string) => apiClient.get(`/projects/${id}`).then((r) => r.data),
+  create: (data: unknown) => apiClient.post('/projects', data).then((r) => r.data),
+  update: (id: string, data: unknown) => apiClient.patch(`/projects/${id}`, data).then((r) => r.data),
+  delete: (id: string) => apiClient.delete(`/projects/${id}`).then((r) => r.data),
+};
+
+export const environmentsApi = {
+  list: (projectId: string) =>
+    apiClient.get('/environments', { params: { projectId } }).then((r) => r.data),
+  create: (data: unknown) => apiClient.post('/environments', data).then((r) => r.data),
+  delete: (id: string) => apiClient.delete(`/environments/${id}`).then((r) => r.data),
+};
+
+export const validatorApi = {
+  validateManifest: (payload: unknown) => apiClient.post('/validate/manifest', { payload }).then((r) => r.data),
+  validatePattern: (payload: unknown) => apiClient.post('/validate/pattern', { payload }).then((r) => r.data),
+  validateBlueprint: (payload: unknown) => apiClient.post('/validate/blueprint', { payload }).then((r) => r.data),
+  listRules: () => apiClient.get('/validate/rules').then((r) => r.data),
+};

@@ -1,0 +1,32 @@
+id: relational-database
+name: Relational Data Service
+category: storage
+description: Portable relational database design using managed SQL services.
+portability: medium
+version: 1.0.0
+
+interfaces:
+  - sql
+
+dependencies:
+  - storage
+  - networking
+
+providers:
+  aws:
+    database: rds
+  gcp:
+    database: cloud_sql
+  azure:
+    database: azure_sql
+
+artifacts:
+  terraform_module: modules/relational-database
+  manifest_template: manifests/relational-database.yaml
+  documentation_url: docs/patterns/relational-database.md
+
+tags:
+  - database
+  - sql
+  - rds
+  - managed

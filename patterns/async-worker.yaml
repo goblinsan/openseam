@@ -1,0 +1,35 @@
+id: async-worker
+name: Async Worker
+category: compute
+description: Background processing service that consumes messages from a queue.
+portability: high
+version: 1.0.0
+
+interfaces:
+  - queue
+
+dependencies:
+  - compute
+  - messaging
+
+providers:
+  aws:
+    compute: lambda
+    queue: sqs
+  gcp:
+    compute: cloud_run
+    queue: pubsub
+  azure:
+    compute: azure_functions
+    queue: service_bus
+
+artifacts:
+  terraform_module: modules/async-worker
+  manifest_template: manifests/async-worker.yaml
+  documentation_url: docs/patterns/async-worker.md
+
+tags:
+  - async
+  - worker
+  - queue
+  - background

@@ -1,0 +1,17 @@
+application: invoice-service
+
+portability:
+  storage: portable
+  messaging: portable
+  compute: cloud-native
+  identity: portable
+
+providers:
+  aws:
+    storage: s3
+    messaging: sqs
+    compute: lambda
+  gcp:
+    storage: gcs
+    messaging: pubsub
+    compute: cloud_run

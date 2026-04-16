@@ -15,6 +15,11 @@ import { InventoryModule } from './inventory/inventory.module';
 import { PortabilityScoringModule } from './portability-scoring/portability-scoring.module';
 import { RecommendationsModule } from './recommendations/recommendations.module';
 import { ReportsModule } from './reports/reports.module';
+import { PatternsModule } from './patterns/patterns.module';
+import { WorkspacesModule } from './workspaces/workspaces.module';
+import { ProjectsModule } from './projects/projects.module';
+import { EnvironmentsModule } from './environments/environments.module';
+import { ValidatorModule } from './validator/validator.module';
 
 @Module({
   imports: [
@@ -34,6 +39,11 @@ import { ReportsModule } from './reports/reports.module';
     PortabilityScoringModule,
     RecommendationsModule,
     ReportsModule,
+    PatternsModule,
+    WorkspacesModule,
+    ProjectsModule,
+    EnvironmentsModule,
+    ValidatorModule,
   ],
 })
 export class AppModule {}

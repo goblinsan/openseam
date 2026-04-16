@@ -1,0 +1,37 @@
+id: containerized-microservice
+name: Containerized Microservice
+category: compute
+description: Kubernetes-based service deployment for containerized workloads.
+portability: high
+version: 1.0.0
+
+interfaces:
+  - http
+  - grpc
+
+dependencies:
+  - compute
+  - networking
+  - orchestration
+
+providers:
+  aws:
+    orchestration: eks
+    registry: ecr
+  gcp:
+    orchestration: gke
+    registry: artifact_registry
+  azure:
+    orchestration: aks
+    registry: acr
+
+artifacts:
+  terraform_module: modules/containerized-microservice
+  manifest_template: manifests/containerized-microservice.yaml
+  documentation_url: docs/patterns/containerized-microservice.md
+
+tags:
+  - kubernetes
+  - containers
+  - microservices
+  - docker

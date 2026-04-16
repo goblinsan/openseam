@@ -1,0 +1,36 @@
+id: streaming-pipeline
+name: Streaming Data Pipeline
+category: messaging
+description: Real-time event and analytics pipeline for high-throughput data processing.
+portability: medium
+version: 1.0.0
+
+interfaces:
+  - stream
+
+dependencies:
+  - messaging
+  - compute
+  - storage
+
+providers:
+  aws:
+    stream: kinesis
+    processing: lambda
+  gcp:
+    stream: pubsub
+    processing: dataflow
+  azure:
+    stream: event_hubs
+    processing: stream_analytics
+
+artifacts:
+  terraform_module: modules/streaming-pipeline
+  manifest_template: manifests/streaming-pipeline.yaml
+  documentation_url: docs/patterns/streaming-pipeline.md
+
+tags:
+  - streaming
+  - real-time
+  - analytics
+  - pipeline

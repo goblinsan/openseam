@@ -1,0 +1,24 @@
+application: example-app
+
+portability:
+  storage: portable
+  messaging: portable
+  compute: portable
+  identity: portable
+
+providers:
+  aws:
+    storage: s3
+    messaging: sqs
+    compute: lambda
+    identity: cognito
+  gcp:
+    storage: gcs
+    messaging: pubsub
+    compute: cloud_run
+    identity: identity_platform
+  azure:
+    storage: blob_storage
+    messaging: service_bus
+    compute: azure_functions
+    identity: azure_ad

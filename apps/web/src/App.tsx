@@ -15,6 +15,12 @@ import NewIntakePage from './pages/intake/NewIntakePage';
 import ScoringPage from './pages/scoring/ScoringPage';
 import AssessmentsPage from './pages/assessments/AssessmentsPage';
 import AssessmentDetailPage from './pages/assessments/AssessmentDetailPage';
+import PatternsPage from './pages/patterns/PatternsPage';
+import PatternDetailPage from './pages/patterns/PatternDetailPage';
+import WorkspacesPage from './pages/workspaces/WorkspacesPage';
+import WorkspaceDetailPage from './pages/workspaces/WorkspaceDetailPage';
+import ProjectsPage from './pages/projects/ProjectsPage';
+import ProjectDetailPage from './pages/projects/ProjectDetailPage';
 
 export default function App() {
   return (
@@ -35,6 +41,12 @@ export default function App() {
         <Route path="/scoring" element={<ScoringPage />} />
         <Route path="/assessments" element={<AssessmentsPage />} />
         <Route path="/assessments/:id" element={<AssessmentDetailPage />} />
+        <Route path="/patterns" element={<PatternsPage />} />
+        <Route path="/patterns/:id" element={<PatternDetailPage />} />
+        <Route path="/workspaces" element={<WorkspacesPage />} />
+        <Route path="/workspaces/:id" element={<WorkspaceDetailPage />} />
+        <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/projects/:id" element={<ProjectDetailPage />} />
       </Routes>
     </Layout>
   );

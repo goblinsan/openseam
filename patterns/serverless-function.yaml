@@ -1,0 +1,32 @@
+id: serverless-function
+name: Serverless Function
+category: compute
+description: Event-triggered compute service for lightweight, stateless workloads.
+portability: medium
+version: 1.0.0
+
+interfaces:
+  - http
+  - event
+
+dependencies:
+  - compute
+
+providers:
+  aws:
+    compute: lambda
+  gcp:
+    compute: cloud_functions
+  azure:
+    compute: azure_functions
+
+artifacts:
+  terraform_module: modules/serverless-function
+  manifest_template: manifests/serverless-function.yaml
+  documentation_url: docs/patterns/serverless-function.md
+
+tags:
+  - serverless
+  - lambda
+  - faas
+  - event-triggered
