@@ -21,6 +21,13 @@ import WorkspacesPage from './pages/workspaces/WorkspacesPage';
 import WorkspaceDetailPage from './pages/workspaces/WorkspaceDetailPage';
 import ProjectsPage from './pages/projects/ProjectsPage';
 import ProjectDetailPage from './pages/projects/ProjectDetailPage';
+import CICDPage from './pages/integrations/CICDPage';
+import ImpactsPage from './pages/impacts/ImpactsPage';
+import WorkflowsPage from './pages/workflows/WorkflowsPage';
+import WorkflowDetailPage from './pages/workflows/WorkflowDetailPage';
+import MigrationsPage from './pages/migrations/MigrationsPage';
+import MigrationDetailPage from './pages/migrations/MigrationDetailPage';
+import ExecutiveDashboardPage from './pages/executive/ExecutiveDashboardPage';
 
 export default function App() {
   return (
@@ -47,6 +54,13 @@ export default function App() {
         <Route path="/workspaces/:id" element={<WorkspaceDetailPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/projects/:id" element={<ProjectDetailPage />} />
+        <Route path="/integrations/cicd" element={<CICDPage />} />
+        <Route path="/impacts" element={<ImpactsPage />} />
+        <Route path="/workflows" element={<WorkflowsPage />} />
+        <Route path="/workflows/:id" element={<WorkflowDetailPage />} />
+        <Route path="/migrations" element={<MigrationsPage />} />
+        <Route path="/migrations/:id" element={<MigrationDetailPage />} />
+        <Route path="/executive" element={<ExecutiveDashboardPage />} />
       </Routes>
     </Layout>
   );

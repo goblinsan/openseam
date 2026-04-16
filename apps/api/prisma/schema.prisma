@@ -310,17 +310,21 @@ model Workspace {
 }
 
 model Project {
-  id            String        @id @default(uuid())
-  workspaceId   String
-  workspace     Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
-  name          String
-  description   String?
-  repositoryUrl String?
-  status        String        @default("active")
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  environments  Environment[]
-  artifacts     Artifact[]
+  id                   String                @id @default(uuid())
+  workspaceId          String
+  workspace            Workspace             @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  name                 String
+  description          String?
+  repositoryUrl        String?
+  status               String                @default("active")
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  environments         Environment[]
+  artifacts            Artifact[]
+  pipelineIntegrations PipelineIntegration[]
+  changeImpactReports  ChangeImpactReport[]
+  workflows            Workflow[]
+  migrationScenarios   MigrationScenario[]
 }
 
 model Environment {
@@ -365,4 +369,151 @@ model Artifact {
   type      String
   reference String
   createdAt DateTime @default(now())
+}
+
+// ─── CI/CD Integration Layer ──────────────────────────────────────────────────
+
+model PipelineIntegration {
+  id              String        @id @default(uuid())
+  projectId       String
+  project         Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  provider        String        @default("github")
+  repositoryUrl   String
+  defaultBranch   String        @default("main")
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  pipelineRuns    PipelineRun[]
+  prChecks        PullRequestCheck[]
+}
+
+model PipelineRun {
+  id            String              @id @default(uuid())
+  integrationId String
+  integration   PipelineIntegration @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+  status        String              @default("pending")
+  commitSha     String
+  resultsUrl    String?
+  createdAt     DateTime            @default(now())
+}
+
+model PullRequestCheck {
+  id                String              @id @default(uuid())
+  integrationId     String
+  integration       PipelineIntegration @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+  repository        String
+  pullRequestNumber Int
+  status            String              @default("pending")
+  score             Float?
+  reportUrl         String?
+  createdAt         DateTime            @default(now())
+}
+
+// ─── Change Impact Analyzer ───────────────────────────────────────────────────
+
+model ChangeImpactReport {
+  id           String   @id @default(uuid())
+  projectId    String
+  project      Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  artifactType String
+  summary      Json     @default("{}")
+  risks        Json     @default("[]")
+  recommendations Json  @default("[]")
+  portabilityImpact Json?
+  costImpact   Json?
+  createdAt    DateTime @default(now())
+}
+
+// ─── Team Workflow Module ─────────────────────────────────────────────────────
+
+model Workflow {
+  id          String     @id @default(uuid())
+  projectId   String
+  project     Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  status      String     @default("pending")
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  tasks       WorkflowTask[]
+  approvals   WorkflowApproval[]
+  reviews     WorkflowReview[]
+}
+
+model WorkflowTask {
+  id          String   @id @default(uuid())
+  workflowId  String
+  workflow    Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  assigneeId  String?
+  status      String   @default("todo")
+  dueDate     DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model WorkflowApproval {
+  id          String   @id @default(uuid())
+  workflowId  String
+  workflow    Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  approverId  String
+  status      String   @default("pending")
+  comments    String?
+  approvedAt  DateTime?
+  createdAt   DateTime @default(now())
+}
+
+model WorkflowReview {
+  id          String   @id @default(uuid())
+  workflowId  String
+  workflow    Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+  reviewerId  String
+  comments    String
+  status      String   @default("pending")
+  createdAt   DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  message   String
+  status    String   @default("unread")
+  createdAt DateTime @default(now())
+}
+
+model ActivityLog {
+  id          String   @id @default(uuid())
+  entityType  String
+  entityId    String
+  action      String
+  performedBy String
+  timestamp   DateTime @default(now())
+}
+
+// ─── Migration Simulator ──────────────────────────────────────────────────────
+
+model MigrationScenario {
+  id             String          @id @default(uuid())
+  projectId      String
+  project        Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  sourceProvider String
+  targetProvider String
+  status         String          @default("pending")
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  report         MigrationReport?
+}
+
+model MigrationReport {
+  id                      String            @id @default(uuid())
+  scenarioId              String            @unique
+  scenario                MigrationScenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
+  estimatedCost           Float             @default(0)
+  estimatedDurationWeeks  Int               @default(0)
+  complexity              String            @default("medium")
+  riskLevel               String            @default("medium")
+  portabilityScoreImpact  Float             @default(0)
+  serviceMappings         Json              @default("[]")
+  recommendations         Json              @default("[]")
+  createdAt               DateTime          @default(now())
 }

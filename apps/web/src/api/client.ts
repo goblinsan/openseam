@@ -164,3 +164,60 @@ export const validatorApi = {
   validateBlueprint: (payload: unknown) => apiClient.post('/validate/blueprint', { payload }).then((r) => r.data),
   listRules: () => apiClient.get('/validate/rules').then((r) => r.data),
 };
+
+export const integrationsApi = {
+  list: (params?: { projectId?: string }) =>
+    apiClient.get('/integrations/cicd', { params }).then((r) => r.data),
+  get: (id: string) => apiClient.get(`/integrations/cicd/${id}`).then((r) => r.data),
+  create: (data: unknown) => apiClient.post('/integrations/cicd', data).then((r) => r.data),
+  delete: (id: string) => apiClient.delete(`/integrations/cicd/${id}`).then((r) => r.data),
+  listRuns: (id: string) => apiClient.get(`/integrations/cicd/${id}/runs`).then((r) => r.data),
+  createRun: (data: unknown) => apiClient.post('/integrations/cicd/runs', data).then((r) => r.data),
+  updateRunStatus: (runId: string, status: string) =>
+    apiClient.patch(`/integrations/cicd/runs/${runId}/status`, { status }).then((r) => r.data),
+  listPrChecks: (id: string) => apiClient.get(`/integrations/cicd/${id}/pr-checks`).then((r) => r.data),
+};
+
+export const impactsApi = {
+  analyze: (data: unknown) => apiClient.post('/impacts/analyze', data).then((r) => r.data),
+  list: (params?: { projectId?: string }) =>
+    apiClient.get('/impacts', { params }).then((r) => r.data),
+  get: (id: string) => apiClient.get(`/impacts/${id}`).then((r) => r.data),
+};
+
+export const workflowsApi = {
+  list: (params?: { projectId?: string }) =>
+    apiClient.get('/workflows', { params }).then((r) => r.data),
+  get: (id: string) => apiClient.get(`/workflows/${id}`).then((r) => r.data),
+  create: (data: unknown) => apiClient.post('/workflows', data).then((r) => r.data),
+  updateStatus: (id: string, status: string) =>
+    apiClient.patch(`/workflows/${id}/status`, { status }).then((r) => r.data),
+  delete: (id: string) => apiClient.delete(`/workflows/${id}`).then((r) => r.data),
+  createTask: (data: unknown) => apiClient.post('/workflows/tasks', data).then((r) => r.data),
+  updateTaskStatus: (id: string, status: string) =>
+    apiClient.patch(`/workflows/tasks/${id}/status`, { status }).then((r) => r.data),
+  createApproval: (data: unknown) => apiClient.post('/workflows/approvals', data).then((r) => r.data),
+  submitReview: (data: unknown) => apiClient.post('/workflows/reviews', data).then((r) => r.data),
+  getActivityLogs: () => apiClient.get('/workflows/activity/logs').then((r) => r.data),
+};
+
+export const migrationsApi = {
+  list: (params?: { projectId?: string }) =>
+    apiClient.get('/migrations', { params }).then((r) => r.data),
+  get: (id: string) => apiClient.get(`/migrations/${id}`).then((r) => r.data),
+  create: (data: unknown) => apiClient.post('/migrations', data).then((r) => r.data),
+  simulate: (id: string) => apiClient.post(`/migrations/${id}/simulate`).then((r) => r.data),
+  getReport: (id: string) => apiClient.get(`/migrations/${id}/report`).then((r) => r.data),
+  getMappings: (id: string) => apiClient.get(`/migrations/${id}/mappings`).then((r) => r.data),
+};
+
+export const dashboardApi = {
+  getExecutive: (params?: { workspaceId?: string }) =>
+    apiClient.get('/dashboard', { params }).then((r) => r.data),
+  getPortfolio: (params?: { workspaceId?: string }) =>
+    apiClient.get('/dashboard/portfolio', { params }).then((r) => r.data),
+  getRisks: () => apiClient.get('/dashboard/risks').then((r) => r.data),
+  getProviders: () => apiClient.get('/dashboard/providers').then((r) => r.data),
+  getGovernance: () => apiClient.get('/dashboard/governance').then((r) => r.data),
+  getTrends: () => apiClient.get('/dashboard/trends').then((r) => r.data),
+};
