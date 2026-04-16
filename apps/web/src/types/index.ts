@@ -183,6 +183,7 @@ export type AssessmentStatus = 'draft' | 'in_review' | 'completed' | 'delivered'
 export type PortabilityRating = 'poor' | 'fair' | 'good' | 'excellent';
 export type ServiceType = 'portable' | 'cloud_native' | 'proprietary';
 export type RiskSeverity = 'low' | 'medium' | 'high' | 'critical';
+export type RecommendationPriority = 'low' | 'medium' | 'high' | 'critical';
 
 export interface Assessment {
   id: string;
@@ -220,7 +221,7 @@ export interface ScoreDeduction {
   category: string;
   description: string;
   impact: number;
-  severity: string;
+  severity: RiskSeverity;
   provider?: string;
   service?: string;
 }
@@ -265,7 +266,7 @@ export interface Recommendation {
   title: string;
   description: string;
   category: string;
-  priority: string;
+  priority: RecommendationPriority;
   impact: string;
   effort: string;
   rationale: string;

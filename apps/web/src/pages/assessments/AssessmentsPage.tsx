@@ -138,7 +138,7 @@ export default function AssessmentsPage() {
                 onChange={e => setForm(f => ({ ...f, intakeId: e.target.value }))}
               >
                 <option value="">— Select intake —</option>
-                {(intakes as ArchitectureIntake[]).map((i) => (
+                {intakes.map((i) => (
                   <option key={i.id} value={i.id}>{i.organizationName} – {i.applicationName}</option>
                 ))}
               </select>
