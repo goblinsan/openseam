@@ -1,0 +1,35 @@
+id: scheduled-job
+name: Scheduled Job
+category: compute
+description: Cron-based automation workload for periodic tasks.
+portability: high
+version: 1.0.0
+
+interfaces:
+  - cron
+
+dependencies:
+  - compute
+  - scheduler
+
+providers:
+  aws:
+    scheduler: eventbridge_scheduler
+    compute: lambda
+  gcp:
+    scheduler: cloud_scheduler
+    compute: cloud_run
+  azure:
+    scheduler: azure_logic_apps
+    compute: azure_functions
+
+artifacts:
+  terraform_module: modules/scheduled-job
+  manifest_template: manifests/scheduled-job.yaml
+  documentation_url: docs/patterns/scheduled-job.md
+
+tags:
+  - cron
+  - scheduled
+  - automation
+  - periodic

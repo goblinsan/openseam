@@ -1,0 +1,31 @@
+id: object-storage
+name: Object Storage Service
+category: storage
+description: Portable file and binary object storage pattern.
+portability: high
+version: 1.0.0
+
+interfaces:
+  - storage
+
+dependencies:
+  - storage
+
+providers:
+  aws:
+    storage: s3
+  gcp:
+    storage: cloud_storage
+  azure:
+    storage: blob_storage
+
+artifacts:
+  terraform_module: modules/object-storage
+  manifest_template: manifests/object-storage.yaml
+  documentation_url: docs/patterns/object-storage.md
+
+tags:
+  - storage
+  - files
+  - blobs
+  - s3

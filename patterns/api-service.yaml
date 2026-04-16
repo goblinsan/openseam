@@ -1,0 +1,35 @@
+id: api-service
+name: API Service
+category: compute
+description: Stateless service exposing REST or GraphQL APIs.
+portability: high
+version: 1.0.0
+
+interfaces:
+  - http
+
+dependencies:
+  - compute
+  - networking
+
+providers:
+  aws:
+    compute: lambda
+    gateway: api_gateway
+  gcp:
+    compute: cloud_run
+    gateway: api_gateway
+  azure:
+    compute: azure_functions
+    gateway: api_management
+
+artifacts:
+  terraform_module: modules/api-service
+  manifest_template: manifests/api-service.yaml
+  documentation_url: docs/patterns/api-service.md
+
+tags:
+  - rest
+  - graphql
+  - serverless
+  - stateless

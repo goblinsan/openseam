@@ -1,0 +1,32 @@
+id: queue-processing
+name: Queue-Based Processing
+category: messaging
+description: Reliable asynchronous workflows using message queues.
+portability: high
+version: 1.0.0
+
+interfaces:
+  - queue
+
+dependencies:
+  - messaging
+  - compute
+
+providers:
+  aws:
+    queue: sqs
+  gcp:
+    queue: pubsub
+  azure:
+    queue: service_bus
+
+artifacts:
+  terraform_module: modules/queue-processing
+  manifest_template: manifests/queue-processing.yaml
+  documentation_url: docs/patterns/queue-processing.md
+
+tags:
+  - queue
+  - async
+  - messaging
+  - reliable

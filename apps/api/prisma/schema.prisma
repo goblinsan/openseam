@@ -276,3 +276,93 @@ model AdvisoryReport {
   metadata         Json       @default("{}")
   generatedAt      DateTime   @default(now())
 }
+
+// ─── Pattern Catalog ──────────────────────────────────────────────────────────
+
+model Pattern {
+  id            String            @id @default(uuid())
+  name          String
+  category      String
+  description   String
+  portability   String            @default("high")
+  version       String            @default("1.0.0")
+  interfaces    String[]          @default([])
+  dependencies  String[]          @default([])
+  providers     Json              @default("{}")
+  artifacts     Json              @default("{}")
+  tags          String[]          @default([])
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+}
+
+// ─── Workspace & Project Model ────────────────────────────────────────────────
+
+model Workspace {
+  id          String        @id @default(uuid())
+  name        String
+  slug        String        @unique
+  description String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  projects    Project[]
+  teams       Team[]
+  memberships Membership[]
+}
+
+model Project {
+  id            String        @id @default(uuid())
+  workspaceId   String
+  workspace     Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  name          String
+  description   String?
+  repositoryUrl String?
+  status        String        @default("active")
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  environments  Environment[]
+  artifacts     Artifact[]
+}
+
+model Environment {
+  id            String   @id @default(uuid())
+  projectId     String
+  project       Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  name          String
+  cloudProvider String?
+  region        String?
+  createdAt     DateTime @default(now())
+}
+
+model Team {
+  id          String      @id @default(uuid())
+  workspaceId String
+  workspace   Workspace   @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  name        String
+  createdAt   DateTime    @default(now())
+}
+
+model Role {
+  id          String       @id @default(uuid())
+  name        String       @unique
+  permissions String[]     @default([])
+  memberships Membership[]
+}
+
+model Membership {
+  id          String    @id @default(uuid())
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  userId      String
+  roleId      String
+  role        Role      @relation(fields: [roleId], references: [id])
+  createdAt   DateTime  @default(now())
+}
+
+model Artifact {
+  id        String   @id @default(uuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  type      String
+  reference String
+  createdAt DateTime @default(now())
+}

@@ -12,6 +12,9 @@ import {
   BarChart3,
   ClipboardList,
   ClipboardCheck,
+  BookOpen,
+  Layers,
+  FolderOpen,
 } from 'lucide-react';
 
 const navItems = [
@@ -27,6 +30,9 @@ const navItems = [
   { to: '/intake', icon: ServerCog, label: 'Arch Intake' },
   { to: '/scoring', icon: BarChart3, label: 'Scoring' },
   { to: '/assessments', icon: ClipboardCheck, label: 'Assessments' },
+  { to: '/patterns', icon: BookOpen, label: 'Patterns' },
+  { to: '/workspaces', icon: Layers, label: 'Workspaces' },
+  { to: '/projects', icon: FolderOpen, label: 'Projects' },
 ];
 
 const sidebarStyle: React.CSSProperties = {
