@@ -15,6 +15,11 @@ import {
   BookOpen,
   Layers,
   FolderOpen,
+  GitBranch,
+  Zap,
+  CheckSquare,
+  ArrowRightLeft,
+  PieChart,
 } from 'lucide-react';
 
 const navItems = [
@@ -33,6 +38,11 @@ const navItems = [
   { to: '/patterns', icon: BookOpen, label: 'Patterns' },
   { to: '/workspaces', icon: Layers, label: 'Workspaces' },
   { to: '/projects', icon: FolderOpen, label: 'Projects' },
+  { to: '/integrations/cicd', icon: GitBranch, label: 'CI/CD' },
+  { to: '/impacts', icon: Zap, label: 'Impact Analyzer' },
+  { to: '/workflows', icon: CheckSquare, label: 'Workflows' },
+  { to: '/migrations', icon: ArrowRightLeft, label: 'Migrations' },
+  { to: '/executive', icon: PieChart, label: 'Executive' },
 ];
 
 const sidebarStyle: React.CSSProperties = {

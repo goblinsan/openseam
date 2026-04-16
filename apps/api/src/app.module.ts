@@ -20,6 +20,11 @@ import { WorkspacesModule } from './workspaces/workspaces.module';
 import { ProjectsModule } from './projects/projects.module';
 import { EnvironmentsModule } from './environments/environments.module';
 import { ValidatorModule } from './validator/validator.module';
+import { IntegrationsModule } from './integrations/integrations.module';
+import { ImpactsModule } from './impacts/impacts.module';
+import { WorkflowsModule } from './workflows/workflows.module';
+import { MigrationsModule } from './migrations/migrations.module';
+import { DashboardsModule } from './dashboards/dashboards.module';
 
 @Module({
   imports: [
@@ -44,6 +49,11 @@ import { ValidatorModule } from './validator/validator.module';
     ProjectsModule,
     EnvironmentsModule,
     ValidatorModule,
+    IntegrationsModule,
+    ImpactsModule,
+    WorkflowsModule,
+    MigrationsModule,
+    DashboardsModule,
   ],
 })
 export class AppModule {}
